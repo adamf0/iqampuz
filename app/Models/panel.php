@@ -4,11 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Http\Controllers\masterKampusController;
 
-
-class master_kampus extends Model
+class panel extends Model
 {
-    protected $table = 'kampus';
+    protected $table = 'm_panel';
     use HasFactory;
 }

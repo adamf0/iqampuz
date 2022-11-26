@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\hak_akses_kampus;
 use App\Models\master_kampus;
+use App\Models\panel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class masterKampusController extends Controller
 {
@@ -15,8 +18,12 @@ class masterKampusController extends Controller
     public function index()
     {
         $masterKampus = master_kampus::all();
+        $hak_akses_kampus = hak_akses_kampus::all();
+        $panel = panel::all();
         return view('master.kampus.index', [
-            'masterKampuses' => $masterKampus
+            'masterKampuses' => $masterKampus,
+            'hak_akses_kampus' => $hak_akses_kampus,
+            'panels' => $panel
         ]);
     }
 
@@ -38,7 +45,10 @@ class masterKampusController extends Controller
      */
     public function showinsert()
     {
-        return view('master.kampus.insert');
+        $panel = panel::all();
+        return view('master.kampus.insert', [
+            'panels' => $panel
+        ]);
     }
     public function detail(Request $id)
     {
@@ -49,6 +59,7 @@ class masterKampusController extends Controller
     }
     public function store(Request $request)
     {
+
         $masterKampus = new master_kampus;
         $request->validate([
             'nama_kampus' => 'required|max:50',
@@ -68,13 +79,48 @@ class masterKampusController extends Controller
         $masterKampus->warna_kampus = $request->warna_kampus;
         $masterKampus->nama_rektor = $request->nama_rektor;
         $masterKampus->tgl_kerjasama = $request->tgl_kerjasama;
+        $masterKampus->singkatan_kampus = $request->singkatan_kampus;
+        $masterKampus->akreditasi = $request->akreditasi;
+        $masterKampus->provinsi = $request->provinsi;
+        $masterKampus->tgl_berdiri = $request->tanggal_berdiri;
+        $masterKampus->kota = $request->kota;
+        $masterKampus->telepon = $request->telepon;
+        $masterKampus->kodepos = $request->kode_pos;
+        $masterKampus->faximile = $request->faximile;
+        $masterKampus->email = $request->email;
+        $masterKampus->website = $request->website;
+        $masterKampus->created_at = null;
+        $masterKampus->updated_at = null;
 
-        $masterKampus->foto_kampus = $request->foto_kampus->getClientOriginalName();
-        $masterKampus->foto_rektor = $request->foto_rektor->getClientOriginalName();
-        $masterKampus->logo_kampus = $request->logo_kampus->getClientOriginalName();
 
+        $folder_location = public_path('images');
+        $logo_kampus = $request->logo_kampus;
+        $foto_kampus = $request->foto_kampus;
+        $foto_rektor = $request->foto_rektor;
+        $name_logo_kampus = Str::random(10) . "." . $logo_kampus->getClientOriginalExtension();
+        $name_foto_kampus = Str::random(10) . "." . $foto_kampus->getClientOriginalExtension();
+        $name_foto_rektor = Str::random(10) . "." . $foto_rektor->getClientOriginalExtension();
+        $logo_kampus->move($folder_location, $name_logo_kampus);
+        $foto_kampus->move($folder_location, $name_foto_kampus);
+        $foto_rektor->move($folder_location, $name_foto_rektor);
+
+        $masterKampus->logo_kampus = $name_logo_kampus;
+        $masterKampus->foto_kampus = $name_foto_kampus;
+        $masterKampus->foto_rektor = $name_foto_rektor;
 
         $masterKampus->save();
+
+        $panels = panel::all();
+        $get_last_id_kampus = master_kampus::all()->last()->id;
+        foreach ($panels as $index => $panel) {
+            $index2 = $index + 1;
+            if ($request->$index2 == 'on') {
+                $hak_akses_kampus = new hak_akses_kampus;
+                $hak_akses_kampus->id_panel = $index2;
+                $hak_akses_kampus->id_kampus = $get_last_id_kampus;
+                $hak_akses_kampus->save();
+            }
+        }
 
         return redirect()->route('masterKampus.index');
     }
@@ -99,8 +145,10 @@ class masterKampusController extends Controller
     public function edit(Request $id)
     {
         $masterKampus = master_kampus::find($id);
+        $panel = panel::where('id_kampus', $id);
         return view('master.kampus.edit', [
-            'detailKampus' => $masterKampus
+            'detailKampus' => $masterKampus,
+            'panel' => $panel
         ]);
     }
 
@@ -114,21 +162,62 @@ class masterKampusController extends Controller
     public function update(Request $request)
     {
         $updateKampus = master_kampus::find($request->id);
+
         $updateKampus->nama_kampus = $request->nama_kampus;
         $updateKampus->kode_kampus = $request->kode_kampus;
-        $updateKampus->tgl_kerjasama = $request->tgl_kerjasama;
-        $updateKampus->nama_rektor = $request->nama_rektor;
         $updateKampus->alamat_kampus = $request->alamat_kampus;
         $updateKampus->profil_kampus = $request->profil_kampus;
         $updateKampus->warna_kampus = $request->warna_kampus;
+        $updateKampus->nama_rektor = $request->nama_rektor;
+        $updateKampus->tgl_kerjasama = $request->tgl_kerjasama;
+        $updateKampus->singkatan_kampus = $request->singkatan_kampus;
+        $updateKampus->akreditasi = $request->akreditasi;
+        $updateKampus->provinsi = $request->provinsi;
+        $updateKampus->tgl_berdiri = $request->tanggal_berdiri;
+        $updateKampus->kota = $request->kota;
+        $updateKampus->telepon = $request->telepon;
+        $updateKampus->kodepos = $request->kode_pos;
+        $updateKampus->faximile = $request->faximile;
+        $updateKampus->email = $request->email;
+        $updateKampus->website = $request->website;
+        $updateKampus->created_at = null;
+        $updateKampus->updated_at = null;
 
-        $updateKampus->foto_kampus = $request->foto_kampus->getClientOriginalName();
-        $updateKampus->foto_rektor = $request->foto_rektor->getClientOriginalName();
-        $updateKampus->logo_kampus = $request->logo_kampus->getClientOriginalName();
+        $folder_location = public_path('images');
+        $logo_kampus = $request->logo_kampus;
+        $foto_kampus = $request->foto_kampus;
+        $foto_rektor = $request->foto_rektor;
+        $name_logo_kampus = Str::random(10) . "." . $logo_kampus->getClientOriginalExtension();
+        $name_foto_kampus = Str::random(10) . "." . $foto_kampus->getClientOriginalExtension();
+        $name_foto_rektor = Str::random(10) . "." . $foto_rektor->getClientOriginalExtension();
+        $logo_kampus->move($folder_location, $name_logo_kampus);
+        $foto_kampus->move($folder_location, $name_foto_kampus);
+        $foto_rektor->move($folder_location, $name_foto_rektor);
+
+        $updateKampus->logo_kampus = $name_logo_kampus;
+        $updateKampus->foto_kampus = $name_foto_kampus;
+        $updateKampus->foto_rektor = $name_foto_rektor;
+
+
+        // $updateKampus->foto_kampus = $request->foto_kampus->getClientOriginalName();
+        // $updateKampus->foto_rektor = $request->foto_rektor->getClientOriginalName();
+        // $updateKampus->logo_kampus = $request->logo_kampus->getClientOriginalName();
+
+        // $updateKampus->nama_kampus = $request->nama_kampus;
+        // $updateKampus->kode_kampus = $request->kode_kampus;
+        // $updateKampus->tgl_kerjasama = $request->tgl_kerjasama;
+        // $updateKampus->nama_rektor = $request->nama_rektor;
+        // $updateKampus->alamat_kampus = $request->alamat_kampus;
+        // $updateKampus->profil_kampus = $request->profil_kampus;
+        // $updateKampus->warna_kampus = $request->warna_kampus;
+
+        // $updateKampus->foto_kampus = $request->foto_kampus->getClientOriginalName();
+        // $updateKampus->foto_rektor = $request->foto_rektor->getClientOriginalName();
+        // $updateKampus->logo_kampus = $request->logo_kampus->getClientOriginalName();
 
         $updateKampus->save();
 
-        return redirect()->route('masterKampus.index');
+        return redirect()->route('masterKampus.update', ['id' => $request->id]);
     }
 
     /**
@@ -139,8 +228,10 @@ class masterKampusController extends Controller
      */
     public function destroy($id)
     {
-        $delete = master_kampus::find($id);
-        $delete->delete();
+
+        $delete_hak_akses_kampus = hak_akses_kampus::where('id_kampus', $id)->delete();
+        $delete_kampus = master_kampus::find($id)->delete();
+
         return redirect()->route('masterKampus.index');
     }
 }

@@ -4,11 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Http\Controllers\masterKampusController;
 
-
-class master_kampus extends Model
+class hak_akses_kampus extends Model
 {
-    protected $table = 'kampus';
+    protected $table = 'hak_akses_kampus';
     use HasFactory;
+    public $timestamps = false;
 }
