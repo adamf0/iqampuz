@@ -16,6 +16,7 @@ use App\Http\Controllers\PanelController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PanelMenuController;
 use App\Http\Controllers\masterKampusController;
+use App\Http\Controllers\ManajemenUserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -70,3 +71,5 @@ Route::post('/panel_menu/getAvailableMenus', [PanelMenuController::class,'getAva
 
 Route::get('/hak_akses_menu', [HakAksesMenuController::class,'index'])->name('hak_akses_menu.index');
 Route::get('/hak_akses_menu/update', [HakAksesMenuController::class,'create'])->name('hak_akses_menu.create');
+
+Route::get('/management_user', [ManajemenUserController::class,'index'])->name('ManajemenUser.index');

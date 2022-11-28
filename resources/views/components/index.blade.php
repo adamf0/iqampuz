@@ -30,10 +30,10 @@
             <a class="sub-btn" style="display: flex;" href="{{ route('panel.index') }}"><i class="material-icons">account_circle</i><span class="ml-2">&nbsp;Panel</span></a>
             <a class="sub-btn" style="display: flex;" href="{{ route('panel_menu.index') }}"><i class="material-icons">account_circle</i><span class="ml-2">&nbsp;Panel Menu</span></a>
             <a class="sub-btn" style="display: flex;" href="{{ route('menu.index') }}"><i class="material-icons">account_circle</i><span class="ml-2">&nbsp;Menu</span></a>
-            <a class="sub-btn" style="display: flex;" href=""><i class="material-icons">account_circle</i><span class="ml-2">&nbsp;Management User</span></a>
+            <a class="sub-btn" style="display: flex;" href="{{ route('ManajemenUser.index') }}"><i class="material-icons">account_circle</i><span class="ml-2">&nbsp;Management User</span></a>
            
         </div>
-
+        
         
 
 
