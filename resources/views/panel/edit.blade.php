@@ -55,3 +55,4 @@
         // $('').text(e.value? 'Aktif':'Non-aktif');
     }
 </script> -->
+@endsection

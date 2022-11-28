@@ -12,22 +12,22 @@
                     <th scope="col">Alamat Kampus</th>
                     <th scope="col">Foto Kampus</th>
                     <th scope="col">Profil kampus</th>
-                    <th scope="col">warna kampus</th>
-                    <th scope="col">nama rektor</th>
-                    <th scope="col">foto rektor</th>
-                    <th scope="col">tgl kerjasama</th>
-                    <th scope="col">singkatan kampus</th>
-                    <th scope="col">akreditasi</th>
-                    <th scope="col">provinsi</th>
-                    <th scope="col">tgl berdiri</th>
-                    <th scope="col">kota</th>
-                    <th scope="col">telepon</th>
-                    <th scope="col">kode pos</th>
-                    <th scope="col">faximile</th>
-                    <th scope="col">email</th>
-                    <th scope="col">website</th>
-                    <th scope="col">panel</th>
-                    <th scope="col">aksi</th>
+                    <th scope="col">Warna kampus</th>
+                    <th scope="col">Nama rektor</th>
+                    <th scope="col">Foto rektor</th>
+                    <th scope="col">Tgl kerjasama</th>
+                    <th scope="col">Singkatan kampus</th>
+                    <th scope="col">Akreditasi</th>
+                    <th scope="col">Provinsi</th>
+                    <th scope="col">Tgl berdiri</th>
+                    <th scope="col">Kota</th>
+                    <th scope="col">Telepon</th>
+                    <th scope="col">Kode pos</th>
+                    <th scope="col">Faximile</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Website</th>
+                    <th scope="col">Panel</th>
+                    <th scope="col">Aksi</th>
 
                 </tr>
             </thead>
