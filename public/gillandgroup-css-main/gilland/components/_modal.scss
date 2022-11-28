@@ -1,0 +1,68 @@
+.modal
+{
+    display: none; 
+    position: fixed; 
+    z-index: 999; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4);
+ 
+    &-header{        
+        padding: 4px 16px; 
+    }
+ 
+    &-content {
+        position: relative;
+        background-color: #fff;
+        margin: 5% auto;
+        padding: 0 $base-padding;
+        width: 50%;
+        max-width: 80%;
+        border-radius: $base-border-radius;
+        box-shadow: $base-box-shadow;
+        
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s;
+        
+    } 
+ 
+    &-body {
+        padding: 4px 16px;
+    }
+ 
+    &-footer {
+        padding: 4px 16px;
+        padding-bottom: 16px;
+    }
+ 
+    &-close {
+        float: right;
+        font-size: 32px;
+        font-weight: bold;
+        color: $error;
+        cursor: pointer;
+        text-decoration: none;
+        user-select: none;
+ 
+        &:hover, &:focus {
+            color: lighten($error, 10);
+            text-decoration: none;
+        }
+    }
+}
+
+@-webkit-keyframes animatetop {
+    from {top: -300px; opacity: 0} 
+    to {top: 0; opacity: 1}
+}
+ 
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}

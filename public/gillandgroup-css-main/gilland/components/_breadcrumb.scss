@@ -1,0 +1,25 @@
+ul.breadcrumb {
+	padding: 0 $base-padding * 2;
+	list-style: none;
+	user-select: none;
+
+	li {
+		display: inline;
+		font-size: $font-size-sm;
+		font-weight: bold;
+
+		a {
+			color: $primary;
+			text-decoration: none;
+		}
+		a:hover {
+			color: lighten($primary, 10);
+		}
+	}
+
+	li + li:before {
+		padding: 8px;
+		color: black;
+		content: "/\00a0";
+	}
+}

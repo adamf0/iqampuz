@@ -1,0 +1,43 @@
+// Open Sans
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+// Poppins
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+@mixin scrollbars($size, $foreground-color, $background-color: mix($foreground-color, white, 20%)) {
+    ::-webkit-scrollbar {
+        width:  $size;
+        height: $size;
+    }
+  
+    ::-webkit-scrollbar-thumb {
+        background: $foreground-color;
+        border-radius: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: slategray; 
+      }
+  
+    ::-webkit-scrollbar-track {
+        background: $background-color;
+    }
+  
+    // For Internet Explorer
+    body {
+      scrollbar-face-color: $foreground-color;
+      scrollbar-track-color: $background-color;
+    }
+  }
+  
+  @include scrollbars(8px, #cccccc);
+
+html {
+    scroll-behavior: smooth;
+}
+
+body{
+    font-family: 'Open Sans', sans-serif;
+    padding: 0;
+    margin: 0;
+}

@@ -1,0 +1,146 @@
+.sidenav {
+	display: block;
+	width: 72px;
+	position: fixed;
+	height: 100%;
+	overflow-x: hidden;
+	margin: 0;
+	padding: 0;
+	box-shadow: $base-box-shadow;
+	z-index: 999;
+	white-space: nowrap;
+	transition: 0.25s;
+	-webkit-user-select: none; /* Safari */
+	-ms-user-select: none; /* IE 10 and IE 11 */
+	user-select: none; /* Standard syntax */
+
+	.header {
+		padding: $base-padding $base-padding * 2;
+		text-decoration: none;
+		cursor: pointer;
+		font-size: $font-size-md;
+		font-weight: bold;
+		display: block;
+		color: $primary;
+		background-color: $white;
+		height: 32px;
+		align-items: center;
+	}
+
+	.header:hover {
+		color: $white;
+		background-color: $dark;
+	}
+
+	.dropdown-container {
+		display: none;
+		background-color: rgb(244, 242, 255);
+		border-bottom: 1px solid grey;
+
+		.sub-btn {
+			padding: $base-padding $base-padding * 2;
+			text-decoration: none;
+			cursor: pointer;
+			color: $dark;
+			font-weight: bold;
+			font-size: $font-size-md;
+			display: block;
+			-webkit-transition: all 0.25s ease;
+			-moz-transition: all 0.25s ease;
+			-ms-transition: all 0.25s ease;
+			-o-transition: all 0.25s ease;
+			transition: all 0.25s ease;
+
+			&:hover:not(.active) {
+				background-color: $primary;
+				color: $white;
+			}
+
+			&.active {
+				background-color: $primary;
+				color: $white;
+			}
+		}
+	}
+
+	.dropdown-btn {
+		padding: $base-padding $base-padding * 2;
+		text-decoration: none;
+		cursor: pointer;
+		font-weight: bold;
+		font-size: $font-size-md;
+		display: block;
+		color: $dark;
+		-webkit-transition: all 0.25s ease;
+		-moz-transition: all 0.25s ease;
+		-ms-transition: all 0.25s ease;
+		-o-transition: all 0.25s ease;
+		transition: all 0.25s ease;
+
+		&:hover:not(.active) {
+			background-color: $primary;
+			color: $white;
+			-webkit-transition: all 0.25s ease;
+			-moz-transition: all 0.25s ease;
+			-ms-transition: all 0.25s ease;
+			-o-transition: all 0.25s ease;
+			transition: all 0.25s ease;
+		}
+
+		&.active {
+			background-color: $secondary;
+			color: $dark;
+			-webkit-transition: all 0.25s ease;
+			-moz-transition: all 0.25s ease;
+			-ms-transition: all 0.25s ease;
+			-o-transition: all 0.25s ease;
+			transition: all 0.25s ease;
+		}
+	}
+}
+
+@each $key, $val in $colors {
+	.sidenav-#{$key} {
+		@extend .sidenav;
+		background-color: $val;
+	}
+}
+
+.main-layout {
+	position: relative;
+	margin-left: 72px;
+}
+
+#main {
+	transition: margin-left 0.25s;
+}
+
+#btn-main {
+	transition: margin-left 0.25s;
+}
+
+.toggle-btn {
+	position: fixed;
+	left: 0;
+	z-index: 1;
+	text-decoration: none;
+	text-align: center;
+	cursor: pointer;
+	// display: inline-block;
+	// border: 0;
+	// padding: $base-padding;
+	// border-radius: 0 50px 50px 0;
+	background-color: $dark;
+	color: $light;
+	font-size: large;
+	-webkit-user-select: none; /* Safari */
+	-ms-user-select: none; /* IE 10 and IE 11 */
+	user-select: none; /* Standard syntax */
+}
+
+@media only screen and (max-width: 600px) {
+	.main-layout {
+		position: relative;
+		margin-left: 72px !important;
+	}
+}

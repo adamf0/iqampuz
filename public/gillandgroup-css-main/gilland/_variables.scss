@@ -1,0 +1,61 @@
+// theme light color
+$light: #f8f9fa;
+$white: #ffffff;
+$primary: #2f318b !default;
+$secondary: #e0f2f9 !default;
+$error: #b00020 !default;
+
+// theme dark color
+$dark: #121212;
+$primary-dark: #bb86fc !default;
+$secondary-dark: #03dac5 !default;
+$error-dark: #cf6679 !default;
+
+// edu color
+$edu-navy: #02588e;
+$edu-darkblue: #003049;
+$edu-blue: #1661d5;
+$edu-yellow: #ffce00;
+$edu-orange: #f77f00;
+
+//color palette
+
+$colors: (
+	"light": $light,
+	"white": $white,
+	"dark": $dark,
+	"primary": $primary,
+	"primary-dark": $primary-dark,
+	"secondary": $secondary,
+	"secondary-dark": $secondary-dark,
+	"error": $error,
+	"error-dark": $error-dark,
+	"edu-navy": $edu-navy,
+	"edu-darkblue": $edu-darkblue,
+	"edu-blue": $edu-blue,
+	"edu-yellow": $edu-yellow,
+	"edu-orange": $edu-orange,
+);
+
+// spacer
+$base-padding: 0.75rem !default;
+$base-margin: 0.75rem !default;
+
+// border
+$base-border-thickness: 1px !default;
+$base-border-radius: 8px !default;
+
+// shadow
+$base-box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1) !default;
+
+// fontsize
+$base-font-size: 1rem !default;
+$font-size-xs: $base-font-size * 0.5 !default;
+$font-size-sm: $base-font-size * 0.75 !default;
+$font-size-md: $base-font-size !default;
+$font-size-lg: $base-font-size * 1.5 !default;
+$font-size-xl: $base-font-size * 2 !default;
+$font-size-xxl: $base-font-size * 3 !default;
+
+// animation
+$base-animation-duration: 0.4s;

@@ -1,0 +1,33 @@
+@use "sass:math";
+
+.card {
+	display: block;
+	border: $base-border-thickness solid $light;
+	border-radius: $base-border-radius;
+	box-shadow: $base-box-shadow;
+
+	.card-title {
+		font-size: $font-size-lg;
+		font-weight: bold;
+	}
+
+	.card-image-top {
+		width: 100%;
+		height: auto;
+		border-radius: $base-border-radius $base-border-radius 0 0;
+	}
+
+	.card-image {
+		width: 100%;
+		height: auto;
+	}
+
+	.card-body {
+		font-size: $base-font-size;
+		padding: $base-padding $base-padding * 2;
+		a {
+			text-decoration: none;
+			color: $primary;
+		}
+	}
+}

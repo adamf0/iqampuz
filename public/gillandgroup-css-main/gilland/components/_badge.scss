@@ -1,0 +1,24 @@
+@use 'sass:math';
+
+@mixin badge($bg-color: $secondary) {
+    border-radius: $base-border-radius * 4;
+    background-color: $bg-color;
+    padding: math.div($base-padding, 4) math.div($base-padding, 2);
+    font-size: $font-size-sm;
+    font-weight: 500;
+    display: inline-block;
+    vertical-align: top; /* here */
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
+.badge {
+    @include badge;
+}
+
+@each $key, $val in $colors {
+    .badge-#{$key}{
+        @include badge($val);
+    }
+}
