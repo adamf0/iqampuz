@@ -26,7 +26,7 @@
                        
                      
 
-                        <td><a href="{{ route('masterKampus.edit', ['id' => $k->id]) }}"
+                        <td><a href="{{ route('ManajemenUser.hakAkses', ['id' => $k->id]) }}"
                                 class="btn btn-primary">Hak Akses </a>
                             <!-- <a href="{{ route('masterKampus.delete', ['id' => $k->id]) }}" class="btn btn-danger"
                                 onclick="confirm('Apakah anda yakin?')">Delete</a> -->

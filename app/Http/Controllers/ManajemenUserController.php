@@ -30,6 +30,52 @@ class ManajemenUserController extends Controller
         
         return view('manajemen_user/index',['datas'=>$manajemen]);
     }
+
+    function hakAkses($id){
+
+        // echo $id;
+        // die;
+
+        $auth = DB::table('auth')
+        ->where('id',$id)
+        ->select('id_kampus')
+        ->first();
+       
+
+        $hak_kampus = DB::table('hak_akses_kampus')
+        ->join('kampus', 'kampus.id', '=', 'hak_akses_kampus.id_kampus')
+        ->join('m_panel', 'm_panel.id_panel', '=', 'hak_akses_kampus.id_panel')
+        ->where('hak_akses_kampus.id_kampus',$auth->id_kampus)
+        ->select('m_panel.nama_panel','kampus.nama_kampus')
+        ->get();
+
+        $hak_panel = DB::table('hak_akses_panel')
+        ->join('m_panel', 'm_panel.id_panel', '=', 'hak_akses_panel.id_panel')
+        ->join('auth', 'auth.id', '=', 'hak_akses_panel.id_auth')
+        ->join('auth_role', 'auth_role.id_auth', '=', 'hak_akses_panel.id_auth')
+        ->join('role', 'role.id', '=', 'hak_akses_panel.id_role')
+        ->where('hak_akses_panel.id_auth',$id)
+        ->select('m_panel.nama_panel','role.nama as role','hak_akses_panel.id_hak_akses_panel')
+        ->get();
+
+        $hak_menu = DB::table('hak_akses_menu')
+        ->join('kampus', 'kampus.id', '=', 'hak_akses_menu.id_kampus')
+        ->join('m_panel_menu', 'm_panel_menu.id_menu_panel', '=', 'hak_akses_menu.id_panel_menu')
+        ->join('m_menu', 'm_menu.id_menu', '=', 'm_panel_menu.id_menu')
+        ->join('m_panel', 'm_panel.id_panel', '=', 'm_panel_menu.id_panel')
+        ->where('hak_akses_menu.id_kampus',$auth->id_kampus)        
+        ->select('m_panel.nama_panel','m_menu.nama_menu','m_panel_menu.to_menu')
+        ->get();
+
+      
+      
+
+        return view('manajemen_user/hakAkses',[
+            'hak_kampus'=>$hak_kampus,
+            'hak_panel'=>$hak_panel,
+            'hak_menu'=>$hak_menu
+        ]);
+    }
    // public function create(){
     //     return view('panel_menu/add',["panels"=>Panel::all()]);
     // }

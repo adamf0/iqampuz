@@ -73,3 +73,4 @@ Route::get('/hak_akses_menu', [HakAksesMenuController::class,'index'])->name('ha
 Route::get('/hak_akses_menu/update', [HakAksesMenuController::class,'create'])->name('hak_akses_menu.create');
 
 Route::get('/management_user', [ManajemenUserController::class,'index'])->name('ManajemenUser.index');
+Route::get('/management_user/hakases/{id}', [ManajemenUserController::class,'hakAkses'])->name('ManajemenUser.hakAkses');
