@@ -7,15 +7,15 @@
     <title>Document</title>
 </head>
 <body>
-    hai {{ $content['nama'] }} terima kasih telah daftar di kampus Politeknik Nasional Denpasar, berikut ini akun untuk mengakses iQampuz kami di <a href="https://polnas.pmb.iQampuz.com">https://polnas.pmb.iQampuz.com</a><br>
+    hai {{ $nama }} terima kasih telah daftar di kampus {{ $kampus }}, berikut ini akun untuk mengakses iQampuz kami di <a href="{{ $situs }}">{{ $situs }}</a><br>
     <table>
         <tr>
             <td>Email</td>
-            <td>: {{ $content['email'] }}</td>
+            <td>: {{ $email }}</td>
         </tr>
         <tr>
             <td>Password</td>
-            <td>: {{ $content['password'] }}</td>
+            <td>: {{ $password }}</td>
         </tr>
     </table>
 </body>
