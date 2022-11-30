@@ -11,4 +11,7 @@ class Kampus extends Model
     public function hak_akses_menu(){
         return $this->belongsTo(HakAksesMenu::class,'id_kampus','id');
     }
+    public function komponen_biaya(){
+        return $this->belongsTo(KomponenBiaya::class,'id_kampus','id');
+    }
 }

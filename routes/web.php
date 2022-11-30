@@ -17,6 +17,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PanelMenuController;
 use App\Http\Controllers\masterKampusController;
 use App\Http\Controllers\ManajemenUserController;
+use App\Http\Controllers\MasterKomponenController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -68,6 +69,13 @@ Route::post('/panel_menu/store', [PanelMenuController::class,'store'])->name('pa
 Route::post('/panel_menu/update/{id}', [PanelMenuController::class,'update'])->name('panel_menu.update');
 Route::get('/panel_menu/delete/{id}', [PanelMenuController::class,'destroy'])->name('menu.destroy');
 Route::post('/panel_menu/getAvailableMenus', [PanelMenuController::class,'getAvailableMenus'])->name('panel_menu.available_menu');
+
+Route::get('/master_komponen', [MasterKomponenController::class,'index'])->name('master_komponen.index');
+Route::get('/master_komponen/create', [MasterKomponenController::class,'create'])->name('master_komponen.create');
+Route::get('/master_komponen/edit/{id}', [MasterKomponenController::class,'edit'])->name('master_komponen.edit');
+Route::post('/master_komponen/store', [MasterKomponenController::class,'store'])->name('master_komponen.store');
+Route::post('/master_komponen/update/{id}', [MasterKomponenController::class,'update'])->name('master_komponen.update');
+Route::get('/master_komponen/delete/{id}', [MasterKomponenController::class,'destroy'])->name('master_komponen.destroy');
 
 Route::get('/hak_akses_menu', [HakAksesMenuController::class,'index'])->name('hak_akses_menu.index');
 Route::get('/hak_akses_menu/update', [HakAksesMenuController::class,'create'])->name('hak_akses_menu.create');
