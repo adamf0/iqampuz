@@ -12,12 +12,15 @@
 */
 
 use App\Http\Controllers\HakAksesMenuController;
+use App\Http\Controllers\KomponenBiayaController;
 use App\Http\Controllers\PanelController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PanelMenuController;
 use App\Http\Controllers\masterKampusController;
 use App\Http\Controllers\ManajemenUserController;
 use App\Http\Controllers\MasterKomponenController;
+use App\Models\Kampus;
+use App\Models\MasterKomponen;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -77,8 +80,29 @@ Route::post('/master_komponen/store', [MasterKomponenController::class,'store'])
 Route::post('/master_komponen/update/{id}', [MasterKomponenController::class,'update'])->name('master_komponen.update');
 Route::get('/master_komponen/delete/{id}', [MasterKomponenController::class,'destroy'])->name('master_komponen.destroy');
 
+Route::get('/komponen_biaya', [KomponenBiayaController::class,'index'])->name('komponen_biaya.index');
+Route::get('/komponen_biaya/create', [KomponenBiayaController::class,'create'])->name('komponen_biaya.create');
+Route::get('/komponen_biaya/edit/{id}', [KomponenBiayaController::class,'edit'])->name('komponen_biaya.edit');
+Route::post('/komponen_biaya/store', [KomponenBiayaController::class,'store'])->name('komponen_biaya.store');
+Route::post('/komponen_biaya/update/{id}', [KomponenBiayaController::class,'update'])->name('komponen_biaya.update');
+Route::get('/komponen_biaya/delete/{id}', [KomponenBiayaController::class,'destroy'])->name('komponen_biaya.destroy');
+
 Route::get('/hak_akses_menu', [HakAksesMenuController::class,'index'])->name('hak_akses_menu.index');
 Route::get('/hak_akses_menu/update', [HakAksesMenuController::class,'create'])->name('hak_akses_menu.create');
 
 Route::get('/management_user', [ManajemenUserController::class,'index'])->name('ManajemenUser.index');
 Route::get('/management_user/hakases/{id}', [ManajemenUserController::class,'hakAkses'])->name('ManajemenUser.hakAkses');
+
+Route::get('/utility/{type}', function($type){
+    if($type=="kampus"){
+        $datas = Kampus::select('id','nama_kampus as text')->get();
+        return response()->json($datas);
+    }
+    else if($type=="komponen"){
+        $datas = MasterKomponen::select('id_komponen as id','nama_komponen as text')->get();
+        return response()->json($datas);
+    }
+    else{
+        return response()->json(["status"=>"999","error"=>"error invaid"]);
+    }
+})->name('utility');
