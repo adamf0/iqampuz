@@ -73,4 +73,6 @@ Route::get('/hak_akses_menu', [HakAksesMenuController::class,'index'])->name('ha
 Route::get('/hak_akses_menu/update', [HakAksesMenuController::class,'create'])->name('hak_akses_menu.create');
 
 Route::get('/management_user', [ManajemenUserController::class,'index'])->name('ManajemenUser.index');
+Route::get('/management_user/tambah', [ManajemenUserController::class,'tambah'])->name('ManajemenUser.tambah');
+Route::post('/management_user/insert', [ManajemenUserController::class,'insert'])->name('ManajemenUser.insert');
 Route::get('/management_user/hakases/{id}', [ManajemenUserController::class,'hakAkses'])->name('ManajemenUser.hakAkses');
