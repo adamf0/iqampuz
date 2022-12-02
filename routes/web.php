@@ -106,3 +106,7 @@ Route::get('/utility/{type}', function($type){
         return response()->json(["status"=>"999","error"=>"error invaid"]);
     }
 })->name('utility');
+
+Route::get('/management_user/tambah', [ManajemenUserController::class,'tambah'])->name('ManajemenUser.tambah');
+Route::post('/management_user/insert', [ManajemenUserController::class,'insert'])->name('ManajemenUser.insert');
+Route::get('/management_user/hakases/{id}', [ManajemenUserController::class,'hakAkses'])->name('ManajemenUser.hakAkses');
