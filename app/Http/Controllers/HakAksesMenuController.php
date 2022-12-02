@@ -10,19 +10,8 @@ use Illuminate\Support\Facades\Validator;
 
 class HakAksesMenuController extends Controller
 {
-    public function index(){
-        $datas = DB::table('hak_akses_menu')
-                    ->selectRaw('`hak_akses_menu`.`id_hak_akses_menu`, `kampus`.`nama_kampus`, `role`.`nama`, `m_panel`.`nama_panel`, `m_menu`.`nama_menu`')
-                    ->join('kampus','kampus.id','=','hak_akses_menu.id_kampus')
-                    ->join('role','role.id','=','hak_akses_menu.id_role')
-                    ->join('m_panel_menu','m_panel_menu.id_menu_panel','=','hak_akses_menu.id_panel_menu')
-                    ->join('m_panel','m_panel_menu.id_panel','=','m_panel.id_panel')
-                    ->join('m_menu','m_panel_menu.id_menu','=','m_menu.id_menu')
-                    ->get();
-        $datas = $datas->groupBy(['nama_kampus','nama','nama_panel']);
-        // dd($datas->groupBy(['nama_kampus','nama','nama_panel']));
-        
-        return view('hak_akses_menu/index',['datas'=>$datas]);
+    public function index(){       
+        return view('hak_akses_menu/index');
     }
     public function create(){
         return view('hak_akses_menu/add');
@@ -31,7 +20,7 @@ class HakAksesMenuController extends Controller
     //     $menu = Menu::where('id_menu',$id)->firstOrFail();
     //     return view('menu/edit',["menu"=>$menu]);
     // }
-    // public function store(Request $request){
+    public function store(Request $request){
     //     $validasi = Validator::make($request->all(), [
     //         'nama_menu' => 'required',
     //         'posisi' => 'required|string:Kiri,Kanan,Atas',
@@ -53,7 +42,7 @@ class HakAksesMenuController extends Controller
     //     else{
     //         return Redirect::back()->withErrors(['msg' => 'gagal simpan']);
     //     }
-    // }
+    }
     // public function update($id, Request $request){
     //     $validasi = Validator::make($request->all(), [
     //         'nama_menu' => 'required',
@@ -79,7 +68,7 @@ class HakAksesMenuController extends Controller
     // }
 
     public function destroy($id){
-        $delete = DB::table('hak_akses_menu')->where('id',$id)->delete();
+        $delete = DB::table('hak_akses_menu')->where('id_hak_akses_menu',$id)->delete();
         if($delete){
             return redirect("hak_akses_menu")->with(['msg' => 'berhasil hapus']);
         }

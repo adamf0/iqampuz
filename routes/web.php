@@ -19,8 +19,11 @@ use App\Http\Controllers\PanelMenuController;
 use App\Http\Controllers\masterKampusController;
 use App\Http\Controllers\ManajemenUserController;
 use App\Http\Controllers\MasterKomponenController;
+use App\Models\HakAksesMenu;
 use App\Models\Kampus;
 use App\Models\MasterKomponen;
+use App\Models\Role;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -88,7 +91,9 @@ Route::post('/komponen_biaya/update/{id}', [KomponenBiayaController::class,'upda
 Route::get('/komponen_biaya/delete/{id}', [KomponenBiayaController::class,'destroy'])->name('komponen_biaya.destroy');
 
 Route::get('/hak_akses_menu', [HakAksesMenuController::class,'index'])->name('hak_akses_menu.index');
-Route::get('/hak_akses_menu/update', [HakAksesMenuController::class,'create'])->name('hak_akses_menu.create');
+Route::get('/hak_akses_menu/create', [HakAksesMenuController::class,'create'])->name('hak_akses_menu.create');
+Route::post('/hak_akses_menu/store', [HakAksesMenuController::class,'store'])->name('hak_akses_menu.store');
+Route::get('/hak_akses_menu/delete/{id}', [HakAksesMenuController::class,'destroy'])->name('hak_akses_menu.destroy');
 
 Route::get('/management_user', [ManajemenUserController::class,'index'])->name('ManajemenUser.index');
 Route::get('/management_user/hakases/{id}', [ManajemenUserController::class,'hakAkses'])->name('ManajemenUser.hakAkses');
@@ -101,6 +106,22 @@ Route::get('/utility/{type}', function($type){
     else if($type=="komponen"){
         $datas = MasterKomponen::select('id_komponen as id','nama_komponen as text')->get();
         return response()->json($datas);
+    }
+    else if($type=="role"){
+        $datas = Role::select('id','nama as text')->get();
+        return response()->json($datas);
+    }
+    else if($type=="db_ham"){
+        $datas = DB::table('hak_akses_menu')
+                    ->selectRaw('`hak_akses_menu`.`id_hak_akses_menu`, `kampus`.`nama_kampus` as kampus, `role`.`nama` as role, `m_panel`.`nama_panel` as panel, `m_menu`.`nama_menu` as menu')
+                    ->join('kampus','kampus.id','=','hak_akses_menu.id_kampus')
+                    ->join('role','role.id','=','hak_akses_menu.id_role')
+                    ->join('m_panel_menu','m_panel_menu.id_menu_panel','=','hak_akses_menu.id_panel_menu')
+                    ->join('m_panel','m_panel_menu.id_panel','=','m_panel.id_panel')
+                    ->join('m_menu','m_panel_menu.id_menu','=','m_menu.id_menu')
+                    ->get();
+        
+        return response()->json(["data"=>$datas]);
     }
     else{
         return response()->json(["status"=>"999","error"=>"error invaid"]);
