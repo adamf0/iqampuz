@@ -11,18 +11,26 @@ class FormEmail extends Mailable
 {
     use Queueable, SerializesModels;
     public $nama;
+    public $kampus;
+    // public $item;
+    public $situs;
     public $email;
     public $password;
+    // public $biaya;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($nama,$email,$password)
+    public function __construct($nama,$kampus,$situs,$email,$password)
     {
         $this->nama = $nama;
+        $this->kampus = $kampus;
+        // $this->item = $item;
+        $this->situs = $situs;
         $this->email = $email;
-        $this->password = $password;
+        $this->password = $password;        
+        // $this->biaya = $biaya;
     }
 
     /**
@@ -32,6 +40,14 @@ class FormEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('email',["nama"=>$this->nama,"email"=>$this->email,"password"=>$this->password]);
+        return $this->view('email',[
+            'nama'=>$this->nama,
+            'kampus'=>$this->kampus,
+            // 'item'=>$this->item,
+            'situs'=>$this->situs,
+            'email'=>$this->email,
+            'password'=>$this->password,
+            // 'biaya'=>$this->biaya
+        ]);
     }
 }

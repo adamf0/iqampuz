@@ -4,7 +4,6 @@
 namespace App\Http\Controllers;
 
 use App\Mail\FormEmail;
-use App\Models\Jurusan;
 use App\Models\KomponenBiaya;
 use App\Models\mahasiswa;
 use App\Models\MasterKampus;
@@ -16,7 +15,6 @@ use App\Traits\utility;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -49,14 +47,9 @@ class AuthController extends Controller
             $kampus = $this->ambil_id_kampus();
             $auth = User::with(['user_role','user_role.role'])
                         ->where("email",$request->email)
-                        // ->where("password",$request->password)
+                        ->where("password",$request->password)
                         ->where("id_kampus",$kampus->id)
-                        // ->where("akses",null)
                         ->firstOrFail();
-            
-            if (!Hash::check($request->password, $auth->password)) {
-                return response()->json($this->res_insert("fatal")); 
-            }
                         
             $data = JWTAuth::encode(JWTFactory::sub($auth->id)->data([
                 "id"=>$auth->id,
@@ -69,7 +62,7 @@ class AuthController extends Controller
         } catch (Exception $e) {
             // dd($e);
             // return response()->json([
-            //     "error"=>$e,
+            //     "error"=>$e->getMessage(),
             //     "data"=>$this->ambil_subdomain(),
             //     "kampus"=>json_encode($kampus)
             // ]);
@@ -78,7 +71,7 @@ class AuthController extends Controller
     }
 
     //auth login pmb
-    public function doLoginPmb(Request $request){
+     public function doLoginPmb(Request $request){
         try {
             $validator = $this->validate($request, [
                 'email'    => 'required|email',
@@ -93,15 +86,11 @@ class AuthController extends Controller
             //$kampus = 4;
             $auth = User::with(['user_role','user_role.role'])
                         ->where("email",$request->email)
-                        // ->where("password",$request->password)
+                        ->where("password",$request->password)
                         //->where("id_kampus",$kampus->id)
-                        ->where("id_kampus",$kampus->id)
-                        ->where("akses",'pmb')
+                        ->where("id_kampus",4)
+                         ->where("akses",'pmb')
                         ->firstOrFail();
-            
-            if (!Hash::check($request->password, $auth->password)) {
-                return response()->json($this->res_insert("fatal")); 
-            }
                         
             $data = JWTAuth::encode(JWTFactory::sub($auth->id)->data([
                 "id"=>$auth->id,
@@ -245,9 +234,7 @@ class AuthController extends Controller
             $validator = $this->validate($request, [
                 'nama_lengkap'      => 'required',
                 'email'             => 'required',
-                'nomor_wa'          => 'required',
-                'asal_sekolah'      => 'required',
-                'jurusan'           => 'required'
+                'nomor_wa'          => 'required'
             ]);
             // $validator2 = $this->validate($request, [
             //     'email'             => 'email',
@@ -278,7 +265,7 @@ class AuthController extends Controller
                 $user->email = $request->email;
                 $user->password = sha1(md5($rand)); //Str::random(6)
                 $user->id_kampus = $kampus->id;
-                // $user->nama_lengkap = $request->nama_lengkap;
+                $user->nama_lengkap = $request->nama_lengkap;
                 $user->akses = "pmb";
                 $user->save();
 
@@ -289,14 +276,9 @@ class AuthController extends Controller
                 $userRole->id_role = $x->id;  
                 $userRole->save();
 
-                $jurusan = Jurusan::where('kode',$request->jurusan)->firstOrFail();
-
-                $mahasiswa                      = new mahasiswa();
-                $mahasiswa->id_auth             = $user->id;
+                $mahasiswa                  = new mahasiswa();
+                $mahasiswa->id_auth         = $user->id;
                 $mahasiswa->pmb_no_pendaftaran  = $this->buat_nomor_pendaftaran($list_no_pendaftaran);
-                $mahasiswa->asal_sekolah        = $request->asal_sekolah;
-                $mahasiswa->id_jurusan1         = $jurusan->id;
-
                 $mahasiswa->nama            = $request->nama_lengkap;
                 $mahasiswa->jenis_kelamin   = "";
                 $mahasiswa->tanggal_lahir   = null;
@@ -460,4 +442,7 @@ class AuthController extends Controller
             return response()->json($this->res_insert("token_absent"));
         }
     }
+
+
+    //
 }

@@ -10,5 +10,8 @@ use App\Http\Controllers\masterKampusController;
 class master_kampus extends Model
 {
     protected $table = 'master_kampus';
-    use HasFactory;
+
+    public function Tagihan(){
+        return $this->hasOne(Tagihan::class,'id_kampus','id');
+    }
 }

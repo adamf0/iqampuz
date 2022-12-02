@@ -50,4 +50,7 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
     {
         return $this->hasOne(MasterKampus::class,'id','id_kampus');
     }
+    public function Tagihan(){
+        return $this->hasOne(Tagihan::class,'id_auth','id');
+    }
 }

@@ -10,7 +10,7 @@ trait utility {
     }
     public function ambil_id_kampus() {
         $url = parse_url($_SERVER['HTTP_ORIGIN']);
-        $subdomain = MasterKampus::select('id')->where('subdomain',$url['host'])->first();
+        $subdomain = MasterKampus::select('id','nama_kampus','subdomain')->where('subdomain',$url['host'])->first();
         
         return $subdomain;
     }

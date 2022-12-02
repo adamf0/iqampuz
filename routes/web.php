@@ -56,3 +56,5 @@ $router->post('/auth/create_admin', ['middleware' => 'cors','uses' => 'AuthContr
 $router->get('/auth/to_panel', ['middleware' => 'cors','uses' => 'RoleController@to_panel']);
 $router->post('/auth/to_menu', ['middleware' => 'cors','uses' => 'RoleController@to_menu']);
 $router->get('/utility/{type}', ['middleware' => 'cors','uses' => 'UtilityController@get_data']);
+
+$router->post('/tagihan', ['middleware' => 'cors','uses' => 'TagihanController@buat_tagihan']);
