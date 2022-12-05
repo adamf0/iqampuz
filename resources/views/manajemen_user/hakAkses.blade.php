@@ -167,7 +167,8 @@ use Illuminate\Support\Facades\DB;
         </tr>
       </thead>
       <tbody>
-
+      <form action="<?php echo route('ManajemenUser.update',['id'=>$id_auth]); ?>" method="post">
+        @csrf
       <?php 
             error_reporting(0);
             $hak_akses = [];
@@ -219,18 +220,18 @@ use Illuminate\Support\Facades\DB;
           ?></td>
          
 
-          <td><input type="checkbox" <?php echo $hak_admins;?>  id="vehicle1" name="vehicle1" value="2">
+          <td><input type="checkbox" <?php echo $hak_admins;?> name="check_hak_akses_panel[{{ $k->id_panel }}][]" value="2">
             <label for="vehicle1"> Admin </label>
           </td>
-          <td><input type="checkbox" <?php echo $hak_superadmins;?>  id="vehicle1" name="vehicle1" value="1">
+          <td><input type="checkbox" <?php echo $hak_superadmins;?> name="check_hak_akses_panel[{{ $k->id_panel }}][]" value="1">
             <label for="vehicle1">Super Admin </label>
           </td>
 
         </tr>
         @endforeach
 
-
-
+        <input type="submit" value="simpan">
+      </form>
       </tbody>
     </table>
   </section>

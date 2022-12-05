@@ -23,6 +23,7 @@ use App\Models\HakAksesMenu;
 use App\Models\Kampus;
 use App\Models\MasterKomponen;
 use App\Models\Role;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -131,3 +132,4 @@ Route::get('/utility/{type}', function($type){
 Route::get('/management_user/tambah', [ManajemenUserController::class,'tambah'])->name('ManajemenUser.tambah');
 Route::post('/management_user/insert', [ManajemenUserController::class,'insert'])->name('ManajemenUser.insert');
 Route::get('/management_user/hakases/{id}', [ManajemenUserController::class,'hakAkses'])->name('ManajemenUser.hakAkses');
+Route::post('/management_user/hakases/{id}', [ManajemenUserController::class,'update'])->name('ManajemenUser.update');

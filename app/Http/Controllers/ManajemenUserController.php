@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HakAksesMenu;
 use App\Models\Menu;
 use App\Models\Panel;
 use App\Models\PanelMenu;
@@ -12,13 +13,6 @@ use Illuminate\Support\Facades\Validator;
 
 class ManajemenUserController extends Controller
 {
-    // public function getAvailableMenus(Request $request){
-    //     $panel_menu = PanelMenu::select('id_menu');
-    //     if($request->has('id_panel')) $panel_menu->where('id_panel',$request->id_panel)->get();
-
-    //     $datas = Menu::whereNotIn('id_menu',$panel_menu)->get();
-    //     return response()->json($datas);
-    // }
     public function index(){
 
         $manajemen = DB::table('auth')
@@ -33,10 +27,6 @@ class ManajemenUserController extends Controller
     }
 
     function hakAkses($id){
-
-        // echo $id;
-        // die;
-
         $auth = DB::table('auth')
         ->where('id',$id)
         ->select('id_kampus')
@@ -59,9 +49,15 @@ class ManajemenUserController extends Controller
         ->select('m_panel.nama_panel','m_panel.id_panel','role.nama as role','hak_akses_panel.id_hak_akses_panel')
         ->get();
 
-        // echo "<pre>";
-        // print_r($hak_panel);
-        // die;
+
+        $hak_akses = [];
+        $hak = DB::table('hak_akses_panel')
+                    ->orderBy('id_role','DESC')
+                    ->get();
+        foreach($hak as $s){
+            $hak_akses[$s->id_panel][$s->id_auth][] = $s->id_role;
+        }
+        // dd($hak_akses,$hak_panel,$hak_kampus);
 
      
 
@@ -84,90 +80,23 @@ class ManajemenUserController extends Controller
             'id_auth'=>$id,
         ]);
     }
-   // public function create(){
-    //     return view('panel_menu/add',["panels"=>Panel::all()]);
-    // }
-    // public function edit($id){
-    //     $panel_menu = PanelMenu::with(['panel','menu'])->where('id_menu_panel',$id)->firstOrFail();
-    //     return view('panel_menu/edit',["panels"=>Panel::all(),"data"=>$panel_menu]);
-    // }
-    // public function store(Request $request){
-    //     $validasi = Validator::make($request->all(), [
-    //         'id_panel'      => 'required',
-    //         'id_menu'       => 'required',
-    //         'to_menu'       =>'required'
-    //     ]);
-
-    //     if($validasi->fails()){
-    //         return Redirect::back()->withErrors($validasi);
-    //     }
-    //     $update = DB::table('m_panel_menu')->insert($request->only('id_panel','id_menu','to_menu'));
-        
-    //     if($update){
-    //         return redirect("panel_menu")->with(['msg' => 'berhasil simpan']);
-    //     }
-    //     else{
-    //         return Redirect::back()->withErrors(['msg' => 'gagal simpan']);
-    //     }
-    // }
-    // public function update($id, Request $request){
-    //     $validasi = Validator::make($request->all(), [
-    //         'id_panel'      => 'required',
-    //         'id_menu'       => 'required',
-    //         // 'id_menu'       => 'required|array|min:1',
-    //         // 'id_menu.*.'    => 'required|string|min:1',
-    //         'to_menu'       =>'required'
-    //     ]);
-
-    //     if($validasi->fails()){
-    //         return Redirect::back()->withErrors($validasi);
-    //     }
-
-    //     $update = DB::table('m_panel_menu')->where('id_menu_panel',$id)->update($request->only('id_panel','id_menu','to_menu'));
-    //     if($update){
-    //         return redirect("panel_menu")->with(['msg' => 'berhasil ubah']);
-    //     }
-    //     else{
-    //         return Redirect::back()->withErrors(['msg' => 'gagal ubah']);
-    //     }
-    // }
-    // public function destroy($id){
-    //     $delete = DB::table('m_panel_menu')->where('id_menu_panel',$id)->delete();
-    //     if($delete){
-    //         return redirect("panel_menu")->with(['msg' => 'berhasil hapus']);
-    //     }
-    //     else{
-    //         return Redirect::back()->withErrors(['msg' => 'gagal hapus']);
-    //     }
-    // }
 
     function tambah(){
-
-        $kampus = DB::table('kampus')
-        ->get();
-        $role = DB::table('role')
-        ->get();
+        $kampus = DB::table('kampus')->get();
+        $role = DB::table('role')->get();
        
         return view('manajemen_user/tambah',['kampus'=>$kampus,'role'=>$role]);
     }
 
     function insert(Request $req){
-
-        // echo "<pre>";
-        // print_r($_POST);
-
-        // die;
-
         $email = $req->email;
         $id_kampus = $req->id_kampus;
         $password = $req->password;
         $id_role = $req->id_role;
 
         $users =  DB::table('auth')->where('email',$email)->first();
-			// print_r($users->password);
-			// die;
 
-			if($users){
+        if($users){
 
 				$data['status'] = 400;
 				$data['message'] = "email sudah digunakan";
@@ -198,5 +127,25 @@ class ManajemenUserController extends Controller
 
 		
             }
+    }
+
+    function update($id,Request $request){
+        $update = DB::transaction(function() use($id,$request){
+            $data = [];
+            foreach($request->check_hak_akses_panel as $key => $val){
+                foreach($val as $v){
+                    array_push($data,["id_auth"=>$id,"id_role"=>$v,"id_panel"=>$key]);
+                }
+            }
+            DB::table('hak_akses_panel')->where('id_auth',$id)->delete();
+            DB::table('hak_akses_panel')->insert($data);
+        });
+        
+        if($update){
+            return redirect("ManajemenUser")->with(['msg' => 'berhasil simpan']);
+        }
+        else{
+            return Redirect::back()->withErrors(['msg' => 'gagal simpan']);
+        }
     }
 }
