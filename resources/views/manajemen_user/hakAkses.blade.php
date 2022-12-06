@@ -236,41 +236,38 @@ use Illuminate\Support\Facades\DB;
     </table>
   </section>
   <section id="panel-information" role="tabpanel" tabindex="0" aria-labelledby="tab-information" hidden>
-    <table class="table table-striped table-hover table-bordered">
+    <table id="tblData" class="table table-striped table-hover table-bordered">
       <thead>
         <tr>
+          <th scope="col"><input type="checkbox" onchange="checkAll(this)"></th>
           <th scope="col">Panel</th>
           <th scope="col">Nama menu</th>
           <th>To Menu </th>
-
-
         </tr>
       </thead>
       <tbody>
-
+        <form action="{{ route('testing') }}" method="post">
+          @csrf
         @foreach ($hak_menu as $k)
-        <tr>
+          <tr>
+            <td><input type="checkbox" class="group_panel" data-panel="{{ $k->id_panel }}" name="group_panel[{{ $k->id_panel }}]" onchange="checkAllMenu(this,{{ $k->id_panel }})"></td>
+            <td>{{ $k->nama_panel }}</td>
+            <td>
+              <input type="checkbox" class="menu" data-panel="{{ $k->id_panel }}" onchange="checkMenu(this)" name="menu[{{ $k->id_panel }}][{{ $k->id_menu }}]">
+              {{ $k->nama_menu }}
+            </td>
+            <td>{{ $k->to_menu }}</td>
 
-          <td>{{ $k->nama_panel }}</td>
-          <td>{{ $k->nama_menu }}</td>
-          <td>{{ $k->to_menu }}</td>
-
-
-
-
-
-
-        </tr>
+          </tr>
         @endforeach
-
-
-
+        <input type="submit" value="simpan">
+        </form>
       </tbody>
     </table>
   </section>
 </article>
 
-
+<script src="https://www.jqueryscript.net/demo/Merge-Cells-HTML-Table/jquery.table.marge.js"></script>
 <script>
   window.addEventListener("DOMContentLoaded", () => {
 
@@ -330,6 +327,64 @@ use Illuminate\Support\Facades\DB;
 
     // Show the selected panel
     grandparent.parentNode.querySelector(`#${target.getAttribute("aria-controls")}`).removeAttribute("hidden");
+  }
+  document.getElementsByClassName('group_panel').indeterminate = true;
+  
+  $('#tblData').margetable({
+    type: 2,
+    colindex: [1] // column 1, 2
+  });
+  function check(obj,element,panel=null){
+    if (obj.checked) {
+          for (var i = 0; i < element.length; i++) {
+            if(element[i].type == 'checkbox' && panel!=null && element[i].getAttribute('data-panel')==panel){
+              element[i].checked = true;
+            }
+            else if(element[i].type == 'checkbox' && panel==null){
+              element[i].checked = true;
+            }
+          }
+      } else {
+          for (var i = 0; i < element.length; i++) {
+            if(element[i].type == 'checkbox' && panel!=null && element[i].getAttribute('data-panel')==panel){
+              element[i].checked = false;
+            }
+            else if(element[i].type == 'checkbox' && panel==null){
+              element[i].checked = false;
+            } 
+          }
+      }
+  }
+  function checkAll(obj) {
+      var group_panel = document.getElementsByClassName('group_panel');
+      check(obj,group_panel);
+
+      var menu = document.getElementsByClassName('menu');
+      check(obj,menu);
+  }
+  function checkAllMenu(obj,panel=null) {
+      var menu = document.getElementsByClassName('menu');
+      check(obj,menu,panel);
+  }
+  function checkMenu(obj){
+    console.log(obj.getAttribute('data-panel'));
+    var element = document.getElementsByClassName('menu');
+    var i = 0;
+
+    for (var i = 0; i < element.length; i++) {
+      const x = element[i];
+      if(x.getAttribute('data-panel')==obj.getAttribute('data-panel') && x.checked==true) i++    
+    }
+    if(i==element.length){
+      var group_panel = document.getElementsByClassName('group_panel');
+      check(obj,group_panel,obj.getAttribute('data-panel'));
+    }
+    else if(i>0 && i<=element.length){
+
+    }
+    else{
+
+    }
   }
 </script>
 

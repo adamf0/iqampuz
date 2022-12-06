@@ -133,3 +133,6 @@ Route::get('/management_user/tambah', [ManajemenUserController::class,'tambah'])
 Route::post('/management_user/insert', [ManajemenUserController::class,'insert'])->name('ManajemenUser.insert');
 Route::get('/management_user/hakases/{id}', [ManajemenUserController::class,'hakAkses'])->name('ManajemenUser.hakAkses');
 Route::post('/management_user/hakases/{id}', [ManajemenUserController::class,'update'])->name('ManajemenUser.update');
+Route::post('/testing', function(Request $request){
+    dd($request->all());
+})->name('testing');

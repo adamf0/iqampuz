@@ -67,11 +67,10 @@ class ManajemenUserController extends Controller
         ->join('m_menu', 'm_menu.id_menu', '=', 'm_panel_menu.id_menu')
         ->join('m_panel', 'm_panel.id_panel', '=', 'm_panel_menu.id_panel')
         ->where('hak_akses_menu.id_kampus',$auth->id_kampus)        
-        ->select('m_panel.nama_panel','m_menu.nama_menu','m_panel_menu.to_menu')
+        ->select('m_panel.id_panel','m_panel.nama_panel','m_panel_menu.id_menu','m_menu.nama_menu','m_panel_menu.to_menu')
         ->get();
-
-      
-      
+        // dd($hak_menu);
+         
 
         return view('manajemen_user/hakAkses',[
             'hak_kampus'=>$hak_kampus,
