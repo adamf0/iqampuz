@@ -1,7 +1,7 @@
 @extends('components.index')
 
 @section('content')
-    <a href="{{ route('masterKampus.showinsert') }}" class="btn btn-primary my-3">Tambah</a>
+    <a href="{{ route('ManajemenUser.tambah') }}" class="btn btn-primary my-3">Tambah</a>
     <div class="table-responsive">
         <table class="table table-striped table-hover table-bordered">
             <thead>

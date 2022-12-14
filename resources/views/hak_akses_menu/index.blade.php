@@ -1,5 +1,6 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+@extends('components.index')
 
+@section('content')
 <div class="container-fluid">
     <div class="row justify-content-center d-flex">
         <div class="col-10 p-5">
@@ -12,41 +13,75 @@
         </div>
         @endif
         <div class="col-10">
-            <table class="table table-responsive">
-                <tr>
-                    <td>#</td>
-                    <td>Kampus</td>
-                    <td>Role</td>
-                    <td>Panel</td>
-                    <td>Menu</td>
-                    <!-- <td>Aksi</td> -->
-                </tr>
-                @php $i=1; @endphp
-                @foreach($datas as $group_kampus => $roles)
+            <table id="example" class="table table-bordered table-hover pt-5">
+                <thead>
                     <tr>
-                        <td>{{ $i++ }}</td>
-                        <td>{{ $group_kampus }}</td>
-                        @foreach($roles as $group_role => $panels)
-                            <td>{{ $group_role }}</td>
-                            @foreach($panels as $group_panel => $menus)
-                                <td>{{ $group_panel }}</td>
-                                <td>
-                                    <ul>
-                                    @forelse ($menus as $menu)
-                                        <li>{{ $menu->nama_menu }}</li>
-                                    @empty
-                                        <li>Tidak ada menu</li>
-                                    @endforelse
-                                    </ul>
-                                </td>
-                            @endforeach
-                        @endforeach
+                        <td>#</td>
+                        <th>Kampus</th>
+                        <th>Role</th>
+                        <th>Panel</th>
+                        <th>Menu</th>
+                        <th>Aksi</th>
                     </tr>
-                @endforeach
+                </thead>
+                <tbody></tbody>
             </table>
         </div>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<script>
+// function format ( d ) {
+//     console.log(d)
+//     return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+//         '<tr>'+
+//             '<td>Role:</td>'+
+//             '<td>***</td>'+
+//         '</tr>'+
+//     '</table>';
+// }
+$(document).ready(function() {
+    let i=1;
+    let table = $('#example').DataTable( {
+        'ajax': '{{ route("utility",["type"=>"db_ham"]) }}',
+        'columns': [
+            {
+                // 'className':      'details-control',
+                // 'orderable':      false,
+                'data': null,
+                'render': function(row){
+                    return i++ + "";
+                }
+            },
+            { 'data': 'kampus' },
+            { 'data': 'role' },
+            { 'data': 'panel' },
+            { 'data': 'menu' },
+            { 
+                'data': 'id_hak_akses_menu', 
+                'render': function(row){
+                    return `
+                        <a href='http://localhost:8000/hak_akses_menu/delete/${row}' class='btn btn-danger'>hapus</a>
+                        <a href='http://localhost:8000/hak_akses_menu/edit/${row}' class='btn btn-warning'>edit</a>
+                    `;
+                } 
+            }
+        ]
+    });
+
+    // $('#example tbody').on('click', 'td.details-control', function(){
+    //     var tr = $(this).closest('tr');
+    //     var row = table.row( tr );
+
+    //     if(row.child.isShown()){
+    //         row.child.hide();
+    //         tr.removeClass('shown');
+    //     } else {
+    //         row.child(format(row.data())).show();
+    //         tr.addClass('shown');
+    //     }
+    // });
+
+} );
+</script>
+@endsection
