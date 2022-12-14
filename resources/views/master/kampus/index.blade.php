@@ -1,33 +1,33 @@
 @extends('components.index')
 
 @section('content')
-    <a href="{{ route('masterKampus.showinsert') }}" class="btn btn-primary my-3">Tambah</a>
+    <a href="{{ route('masterKampus.showinsert') }}" class="btn btn-sm btn-primary my-3 fw-semibold">Tambah</a>
     <div class="table-responsive">
-        <table class="table table-striped table-hover table-bordered">
+        <table id="table_kampus" class="table table-hover table-bordered">
             <thead>
                 <tr>
-                    <th scope="col">Nama kampus</th>
-                    <th scope="col">Kode kampus</th>
-                    <th scope="col">Logo Kampus</th>
-                    <th scope="col">Alamat Kampus</th>
-                    <th scope="col">Foto Kampus</th>
-                    <th scope="col">Profil kampus</th>
-                    <th scope="col">Warna kampus</th>
-                    <th scope="col">Nama rektor</th>
-                    <th scope="col">Foto rektor</th>
-                    <th scope="col">Tgl kerjasama</th>
-                    <th scope="col">Singkatan kampus</th>
-                    <th scope="col">Akreditasi</th>
-                    <th scope="col">Provinsi</th>
-                    <th scope="col">Tgl berdiri</th>
-                    <th scope="col">Kota</th>
-                    <th scope="col">Telepon</th>
-                    <th scope="col">Kode pos</th>
-                    <th scope="col">Faximile</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Website</th>
-                    <th scope="col">Panel</th>
-                    <th scope="col">Aksi</th>
+                    <td scope="col">Nama kampus</td>
+                    <td scope="col">Kode kampus</td>
+                    <td scope="col">Logo Kampus</td>
+                    <td scope="col">Alamat Kampus</td>
+                    <td scope="col">Foto Kampus</td>
+                    <td scope="col">Profil kampus</td>
+                    <td scope="col">Warna kampus</td>
+                    <td scope="col">Nama rektor</td>
+                    <td scope="col">Foto rektor</td>
+                    <td scope="col">Tgl kerjasama</td>
+                    <td scope="col">Singkatan kampus</td>
+                    <td scope="col">Akreditasi</td>
+                    <td scope="col">Provinsi</td>
+                    <td scope="col">Tgl berdiri</td>
+                    <td scope="col">Kota</td>
+                    <td scope="col">Telepon</td>
+                    <td scope="col">Kode pos</td>
+                    <td scope="col">Faximile</td>
+                    <td scope="col">Email</td>
+                    <td scope="col">Website</td>
+                    <td scope="col">Panel</td>
+                    <td scope="col">Aksi</td>
 
                 </tr>
             </thead>
@@ -39,11 +39,13 @@
                         <td>
                             <img src="images/{{ $kampus['logo_kampus'] }}" class="img-fluid" alt="">
                         </td>
-                        <td>{{ $kampus['alamat_kampus'] }}</td>
+                        <td>
+                            {{ Str::limit($kampus['alamat_kampus'], 50, '...') }}
+                        </td>
                         <td>
                             <img src="images/{{ $kampus['foto_kampus'] }}" class="img-fluid" alt="">
                         </td>
-                        <td>{{ $kampus['profil_kampus'] }}</td>
+                        <td>{{ Str::limit($kampus['profil_kampus'], 50, '...') }}</td>
                         <td><input type="color" class="border-0" value="{{ $kampus['warna_kampus'] }}" disabled></td>
                         <td>{{ $kampus['nama_rektor'] }}</td>
                         <td>
@@ -73,13 +75,32 @@
                         </td>
 
                         <td><a href="{{ route('masterKampus.edit', ['id' => $kampus['id']]) }}"
-                                class="btn btn-primary">Edit</a>
-                            <a href="{{ route('masterKampus.delete', ['id' => $kampus['id']]) }}" class="btn btn-danger"
-                                onclick="confirm('Apakah anda yakin?')">Delete</a>
+                                class="btn btn-primary fw-semibold m-2">Edit</a>
+                            <a href="{{ route('masterKampus.delete', ['id' => $kampus['id']]) }}"
+                                class="btn btn-danger fw-semibold m-2" onclick="confirm('Apakah anda yakin?')">Delete</a>
+
+
+
+                            <a href="{{ route('masterKampus.biaya.index', ['id' => $kampus['id']]) }}"
+                                class="btn btn-success fw-semibold m-2">Detail biaya</a>
+
+                            <a href="{{ route('masterKampus.gelombang.index', ['id' => $kampus['id']]) }}"
+                                class="btn btn-primary">Gelombang</a>
+
+
+
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#table_kampus').DataTable({
+                responsive: true
+            });
+        });
+    </script>
 @endsection
