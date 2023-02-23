@@ -14,10 +14,10 @@ trait utility {
         
         return $subdomain;
     }
-    public function buat_nomor_pendaftaran($list_nomor_terdaftar = []){
+    public function buat_nomor($list_nomor_terdaftar = []){
         $nomor = sprintf("%10d", mt_rand(1, 9999999999));
         if(in_array($nomor,$list_nomor_terdaftar)){
-            $this->buat_nomor_pendaftaran($list_nomor_terdaftar);
+            $this->buat_nomor($list_nomor_terdaftar);
         }
         else{
             return $nomor;

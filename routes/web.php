@@ -26,17 +26,6 @@ $router->get('/', function () use ($router) {
     // Artisan::call('migrate');
     return "{$router->app->version()} <br>".Artisan::output();
 });
-$router->post('/tes', function (Request $request){
-    return json_encode([
-        "header"=>$request->header(),
-        "body"=>$request->all(),
-        "dll"=>$_SERVER,
-        "dll2"=>$_REQUEST,
-        "dll3"=>gethostbyaddr($request->header('cf-connecting-ip')),
-        "dll4"=>$request->headers->all()
-        // "origin" => $request->header->get('origin')
-    ]);
-});
 $router->get('/clean', function () use ($router) {
     Artisan::call('optimize');
 });
@@ -51,6 +40,7 @@ $router->get('/load/config', function(){});
 $router->post('/auth/create_user', ['middleware' => 'cors','uses' => 'AuthController@create_auth_user']);
 $router->post('/auth/update_user', ['middleware' => 'cors','uses' => 'AuthController@update_auth_user']);
 $router->post('/auth/create_admin', ['middleware' => 'cors','uses' => 'AuthController@create_auth_admin']);
+$router->post('/upload_berkas', ['middleware' => 'cors','uses' => 'BerkasMahasiswaController@upload_berkas']);
 // $router->post('/mahasiswa', 'AuthController@create_auth_user');
 
 $router->get('/auth/to_panel', ['middleware' => 'cors','uses' => 'RoleController@to_panel']);
@@ -58,3 +48,5 @@ $router->post('/auth/to_menu', ['middleware' => 'cors','uses' => 'RoleController
 $router->get('/utility/{type}', ['middleware' => 'cors','uses' => 'UtilityController@get_data']);
 
 $router->post('/tagihan', ['middleware' => 'cors','uses' => 'TagihanController@buat_tagihan']);
+$router->post('/riwayat_tagihan', ['middleware' => 'cors','uses' => 'TagihanController@riwayat_tagihan']);
+$router->get('/batal_tagihan/{id}', ['middleware' => 'cors','uses' => 'TagihanController@batal_tagihan']);

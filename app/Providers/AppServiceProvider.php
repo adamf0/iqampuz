@@ -14,6 +14,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $request = app('request');
+        config()->set('jwt.ttl', 60*24); //1 hari
 
         // ALLOW OPTIONS METHOD
         if($request->getMethod() === 'OPTIONS')  {
