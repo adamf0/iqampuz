@@ -67,7 +67,7 @@ class AuthController extends Controller
 
             return response()->json($this->show_data(0,0,0,0,["token"=>$data,"role"=>$auth->user_role->pluck('role.nama')]));
         } catch (Exception $e) {
-            dd($e);
+            // dd($e);
             // return response()->json([
             //     "error"=>$e,
             //     "data"=>$this->ambil_subdomain(),
@@ -293,7 +293,7 @@ class AuthController extends Controller
 
                 $mahasiswa                      = new mahasiswa();
                 $mahasiswa->id_auth             = $user->id;
-                $mahasiswa->pmb_no_pendaftaran  = $this->buat_nomor($list_no_pendaftaran);
+                $mahasiswa->pmb_no_pendaftaran  = $this->buat_nomor_pendaftaran($list_no_pendaftaran);
                 $mahasiswa->asal_sekolah        = $request->asal_sekolah;
                 $mahasiswa->id_jurusan1         = $jurusan->id;
 

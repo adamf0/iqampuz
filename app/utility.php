@@ -15,7 +15,7 @@ trait utility {
         return $subdomain;
     }
     public function buat_nomor_pendaftaran($list_nomor_terdaftar = []){
-        $nomor = sprintf("%10d", mt_rand(1, 9999999999));
+        $nomor = str_pad(mt_rand(1, 1000000000), 10, '0', STR_PAD_LEFT);
         if(in_array($nomor,$list_nomor_terdaftar)){
             $this->buat_nomor_pendaftaran($list_nomor_terdaftar);
         }
@@ -61,13 +61,15 @@ trait utility {
         ];
     }
 
-    public function show_data_object($data=null){
+      public function show_data_object($data=null){
         return [
             "kode"=>"001",
             "message"=>"sukses",
             "listdata"=>$data,
         ];
-    } 
+    }
+
+
 
     public function res_insert($status = false){
         switch($status){

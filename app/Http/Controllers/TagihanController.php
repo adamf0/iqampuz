@@ -32,9 +32,7 @@ class TagihanController extends Controller
                 $tagihan->id_kampus         = $id_kampus;
                 $tagihan->tanggal_aktif     = $tanggal_aktif;
                 $tagihan->tanggal_expire    = $tanggal_expire;
-                $tagihan->tanggal_batal     = null;
-                $tagihan->nomor_va          = $this->buat_nomor();
-                $tagihan->status            = 'menunggu pembayaran';
+                $tagihan->status            = 0;
                 $tagihan->save();
     
                 foreach($request->komponen_biaya as $komponen){
@@ -60,23 +58,12 @@ class TagihanController extends Controller
             return response()->json($this->res_insert("token_absent"));
         }
     }
-    public function riwayat_tagihan(Request $request){
-        if($request->type=='belum_bayar'){
-            $tagihan = Tagihan::where('status','menunggu pembayaran')->get();   
+    public function riwayat_tagihan($type='belum_bayar'){
+        if($type=='belum_bayar'){
+            $tagihan = Tagihan::where('',)->get();   
         }
         else{
-            $tagihan = Tagihan::where('status','!=','menunggu pembayaran')->get();
-        }
-        return response()->json($this->show_data_object($tagihan));
-    }
-    public function batal_tagihan($id){
-        $tagihan = Tagihan::findOrFail($id);
-        $tagihan->status = "batal pembayaran";
-        if($tagihan->save()){
-            return response()->json($this->res_insert("sukses"));
-        }
-        else{
-            return response()->json($this->res_insert("fatal"));
+
         }
     }
 }
